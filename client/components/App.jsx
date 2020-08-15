@@ -7,6 +7,7 @@ import SignUp from './SignUp';
 import ResetPassword from './ResetPassword';
 import MyItems from './MyItems';
 import MyLocations from './MyLocations';
+import Forgotinfo from './ForgotInfo';
 
 class App extends React.Component {
   constructor(props) {
@@ -44,6 +45,9 @@ class App extends React.Component {
     return (
       <div>
         <Switch>
+        <Route path="/forgotinfo">
+            <Forgotinfo />
+          </Route>
           <Route path="/signup">
             <SignUp />
           </Route>

@@ -68,9 +68,14 @@ class Login extends React.Component {
   render() {
     return (
       <div>
+        <Link to="/forgotinfo">
+  <button className="forgotinfo" type="button">
+    forgotinfo
+  </button>
+</Link>
         <Link to="/signup">
           <button type="button">Register</button>
-        </Link>
+        </Link> 
         <Link to="/welcome">
           <button type="button">Go to welcome demo</button>
         </Link>
