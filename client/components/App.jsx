@@ -8,6 +8,7 @@ import ResetPassword from './ResetPassword';
 import MyItems from './MyItems';
 import MyLocations from './MyLocations';
 import Forgotinfo from './ForgotInfo';
+import Search from './Search';
 
 class App extends React.Component {
   constructor(props) {
@@ -18,13 +19,10 @@ class App extends React.Component {
       locations: ['kitchen', 'storage', 'living room'],
       items: ['sawyer', 'lizzy', 'dodo'],
     };
-    this.styles = {
-      fontSize: 50,
-      fontWeight: 'bold',
-    };
     this.itemLookup = this.itemLookup.bind(this);
   }
 
+  // Fetch requests for items, and locations
   async itemLookup(event) {
     event.preventDefault();
     try {
@@ -35,7 +33,8 @@ class App extends React.Component {
           'Content-Type': 'application/json',
         },
       });
-      // logic for what we want it to do after signup (if response is 200 or not)
+      // Update state with result from fetch request
+      // this.setState({ dynamicllyAssignedKey: response });
     } catch (error) {
       console.log('Error in signUpSubmit: ', error);
     }
@@ -45,25 +44,26 @@ class App extends React.Component {
     return (
       <div>
         <Switch>
-        <Route path="/forgotinfo">
+          <Route path="/forgotinfo">
             <Forgotinfo />
-          </Route>
-          <Route path="/signup">
-            <SignUp />
           </Route>
           <Route path="/myitems">
             <MyItems items={this.state.items} />
           </Route>
-
           <Route path="/mylocations">
             <MyLocations locations={this.state.locations} />
           </Route>
           <Route path="/reset">
             <ResetPassword />
           </Route>
-          {/* Is the welcome page based on the user? */}
+          <Route path="/search">
+            <Search search={this.props.search} />
+          </Route>
+          <Route path="/signup">
+            <SignUp />
+          </Route>
           <Route path="/welcome">
-            <Welcome />
+            <Welcome logo={this.props.logo} />
           </Route>
           <Route exact path="/">
             <Login />

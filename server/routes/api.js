@@ -2,6 +2,7 @@
 const express = require('express');
 
 const accioController = require('../controllers/accioController'); // middlewares
+const userController = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -26,5 +27,9 @@ router.get('/item/:itemName', accioController.getItem, (req, res) =>
 router.post('/item', accioController.addItem, (req, res) =>
   res.status(200).json({ message: 'success adding item to db' }),
 );
+
+router.post('/addUser', userController.addUser, (req, res) => {
+  res.status(200);
+});
 
 module.exports = router;
