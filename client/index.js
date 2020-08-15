@@ -9,10 +9,14 @@ import Login from './components/Login';
 import Welcome from './components/Welcome';
 import SignUp from './components/SignUp';
 import ResetPassword from './components/ResetPassword';
+import ForgotInfo from './components/ForgotInfo';
 
 function App() {
   return <div>
     <Switch>
+    <Route path="/forgotinfo">
+        <ForgotInfo />
+      </Route>
       <Route path="/signup">
         <SignUp />
       </Route>
