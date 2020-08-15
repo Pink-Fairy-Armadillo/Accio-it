@@ -7,6 +7,13 @@ class Forgotinfo extends Component {
     render() { 
         return (
         <div>
+            <div>
+            <Link to="/welcome">
+                <button className="home" type="button">
+                    Accio Home!
+                </button>
+            </Link>
+            </div>
             <h1>
                 Should'va used the Google Oauth!
             </h1>

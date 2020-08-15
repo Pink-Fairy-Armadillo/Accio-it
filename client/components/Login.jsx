@@ -7,6 +7,7 @@ class Login extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.onSignIn = this.onSignIn.bind(this);
 
     this.state = { username: '', password: '' };
   }
@@ -15,9 +16,35 @@ class Login extends React.Component {
     this.setState({ ...this.state, [event.target.name]: event.target.value });
   }
 
+  onSignIn() {
+    // This is null if the 'email' scope is not present.
+
+    console.log('logged in');
+    //let profile = googleUser.getBasicProfile();
+    //let id_token = googleUser.getAuthResponse().id_token;
+    //console.log('ID token:', id_token);
+    //console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+    // console.log('Name: ' + profile.getName());
+    // console.log('Image URL: ' + profile.getImageUrl());
+    // console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+  }
+
   //handleSubmit function --> make a post request to the database - in the backend do the logic to check if the user is correct
   //if we get a 200 response, we know the user can login
   //if not then the username or password is wrong
+
+  //   componentDidMount() {
+  //     window.GamepadHapticActuator.signin2.render('google-sign-in-button', {
+  //       width: 200,
+  //       height: 50,
+  //       onsuccess: this.onSuccess,
+  //     });
+  //   }
+
+  //   onSuccess(googleUser) {
+  //     const profile = googleUser.getBasicProfile();
+  //     console.log('Name:' + profiled.getName());
+  //   }
 
   async handleSubmit(event) {
     event.preventDefault();
@@ -52,6 +79,13 @@ class Login extends React.Component {
         <Link to="/welcome">
           <button type="button">Go to welcome demo</button>
         </Link>
+
+        <Link to="/myitems">
+          <button type="button">Go to items demo</button>
+        </Link>
+        <Link to="/mylocations">
+          <button type="button">Go to locations demo</button>
+        </Link>
         <form>
           <div>
             Username:
@@ -73,6 +107,7 @@ class Login extends React.Component {
           </div>
           <input type="submit" value="Login"></input>
         </form>
+        <div className="g-signin2" onClick={this.onSignIn}></div>
       </div>
     );
   }
