@@ -5,13 +5,14 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'build'),
     filename: 'bundle.js',
+    publicPath: '/build',
   },
   mode: process.env.NODE_ENV,
   devtool: 'source-map',
   devServer: {
-    contentBase: './build',
+    // contentBase: path.resolve(__dirname, '/'),
     hot: true,
-    publicPath: '/',
+    publicPath: '/build',
     proxy: {
       '/server': 'http://localhost:3000',
     },
@@ -19,7 +20,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js$/,
+        test: /\.jsx?/,
         exclude: /(node_modules|bower_components)/,
         use: {
           loader: 'babel-loader',
