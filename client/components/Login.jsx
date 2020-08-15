@@ -28,7 +28,7 @@ class Login extends React.Component {
           password: this.state.password,
         }),
         headers: {
-          'Content-Type': 'applicaiton/json',
+          'Content-Type': 'application/json',
         },
       });
       //logic for what we want it to do after login (if response is 200 or not)
@@ -40,12 +40,12 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit}>
+        <form>
           <div>
             Username:
             <input
               name="username"
-              value={this.state.usename}
+              value={this.state.username}
               type="text"
               onChange={this.handleChange}
             ></input>
