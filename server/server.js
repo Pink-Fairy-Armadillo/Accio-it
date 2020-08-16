@@ -11,6 +11,7 @@ const PORT = 3000;
 
 // handle parsing request body
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // handle requests for static files if we have
 // app.use('/assets', express.static(path.resolve(__dirname, '../client/assets')));
@@ -18,14 +19,14 @@ app.use(express.json());
 // route handlers
 app.use('/api', apiRouter);
 
-if (process.env.NODE_ENV === 'production') {
-  // statically serve everything in the build folder on the route '/build'
-  app.use('/build', express.static(path.join(__dirname, '../build')));
-  // respond with main app serve index.html on the route '/'
-  app.get('/', (req, res) => {
-    res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
-  });
-}
+// if (process.env.NODE_ENV === 'production') {
+//   // statically serve everything in the build folder on the route '/build'
+//   app.use('/build', express.static(path.join(__dirname, '../build')));
+//   // respond with main app serve index.html on the route '/'
+//   app.get('/', (req, res) => {
+//     res.status(200).sendFile(path.join(__dirname, '../client/index.html'));
+//   });
+// }
 
 // catch-all route handler for any requests to unknown route
 app.use((req, res) => res.sendStatus(404));
