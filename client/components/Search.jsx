@@ -2,6 +2,16 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Search(props) {
+  let result;
+  if (props.searchResult.length) {
+    const item = props.searchResult[0];
+    result = <div id="searchResult">
+               <p><b>Item: </b>{item.item_name}</p>
+               <p><b>Location: </b>{item.location}</p>
+               <p><b>Container: </b>{item.container}</p>
+             </div>;
+  }
+
   return (
     <div>
       <header>
@@ -11,20 +21,23 @@ function Search(props) {
           </button>
         </Link>
       </header>
-      <div>
+      <form>
         <h1 className="title">What can I help you find?</h1>
-        <form>
-          <div id="search">
-            <input
-              defaultValue="I\'m looking for..."
-              value={props.search}
-              type="text"
-              onChange={props.searchSubmit}
-            ></input>
-            <input type="submit" value="Accio!" />
-          </div>
-        </form>
-      </div>
+        <div id="search">
+          <input
+            type="text"
+            placeholder="I'm looking for..."
+            value={props.search}
+            onChange={(e) => props.handleChange(e)}
+          ></input>
+          <input
+            type="submit"
+            value="Accio!"
+            onClick={(e) => props.dbSearch(e, props.search)}
+          />
+        </div>
+      </form>
+      {result}
     </div>
   );
 }

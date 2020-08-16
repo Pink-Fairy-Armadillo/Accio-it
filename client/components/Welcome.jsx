@@ -10,7 +10,7 @@ function Welcome(props) {
           Location
         </button>
       </div>
-      <span className="logo">{props.logo}</span>
+      <span className="logo">Accio!</span>
       <div>
         <Link to="/mylocations">
           <button id="Items" type="button">

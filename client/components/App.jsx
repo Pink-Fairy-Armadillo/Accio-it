@@ -1,6 +1,5 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { join } from path;
 import Login from './Login';
 import Welcome from './Welcome';
 import SignUp from './SignUp';
@@ -14,52 +13,42 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      logo: 'Accio!',
+      userId: 1,
+      preferred_name: 'Martin',
+      allitems: [],
+      containers: [],
+      locations: [],
+      searchResult: [],
       search: '',
-      locations: ['kitchen', 'storage', 'living room'],
-      items: ['sawyer', 'lizzy', 'dodo'],
-      container: ['box', 'drawer', 'floor'],
     };
-    this.itemLookup = this.itemLookup.bind(this);
-    this.locationLookup = this.locationLookup.bind(this);
-    this.containerLookup = this.containerLookup.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.dbSearch = this.dbSearch.bind(this);
+    this.dbLookup = this.dbLookup.bind(this);
   }
 
-  // Fetch requests for items, and locations
-  async itemLookup(event) {
-    // Create dynamic url based on search information
-    const url = join('http://localhost:3000/api/items', userID);
+  // handleChange for search bar functionality
+  handleChange(event) {
     event.preventDefault();
+    this.setState({ search: event.target.value });
+  }
+
+  async dbLookup(path) {
     try {
-      let response = await fetch(url, {});
-      response.json();
-      this.setState({ items: response });
+      // Get requests. 'path' is (allItems || containers || locations)
+      const response = await (await fetch(`http://localhost:3000/api/${path}/${this.state.userId}`)).json();
+      this.setState({ [path]: response });
     } catch (error) {
-      console.log('Error in APP.jsx itemLookup: ', error);
+      console.log(`Error in APP.jsx ${path} dbLookup: `, error);
     }
   }
 
-  async locationLookup(event) {
-    const url = join('http://localhost:3000/api/location/', userID);
+  async dbSearch(event, search) {
     event.preventDefault();
     try {
-      let response = await fetch(url, {});
-      response.json();
-      this.setState({ location: response });
+      const response = await (await fetch(`http://localhost:3000/api/getItem/${this.state.userId}/${search}`)).json();
+      this.setState({ searchResult: response });
     } catch (error) {
-      console.log('Error in APP.jsx locationLookup: ', error);
-    }
-  }
-
-  async containerLookup(event) {
-    const url = join('http://localhost:3000/api/container/', userID);
-    event.preventDefault();
-    try {
-      let response = await fetch(url, {});
-      response.json();
-      this.setState({ container: response });
-    } catch (error) {
-      console.log('Error in APP.jsx containerLookup: ', error);
+      console.log('Error in APP.jsx dbSearch: ', error);
     }
   }
 
@@ -71,22 +60,37 @@ class App extends React.Component {
             <Forgotinfo />
           </Route>
           <Route path="/myitems">
-            <MyItems items={this.state.items} />
+            <MyItems
+              id={this.state.userId}
+              items={this.state.allitems}
+              name={this.state.preferred_name}
+              dbLookup={this.dbLookup}
+            />
           </Route>
           <Route path="/mylocations">
-            <MyLocations locations={this.state.locations} />
+            <MyLocations
+              id={this.state.userId}
+              locations={this.state.locations}
+              dbLookup={this.state.dbLookup}
+            />
           </Route>
           <Route path="/reset">
             <ResetPassword />
           </Route>
           <Route path="/search">
-            <Search search={this.state.search} />
+            <Search
+              id={this.state.userId}
+              search={this.state.search}
+              searchResult={this.state.searchResult}
+              dbSearch={this.dbSearch}
+              handleChange={this.handleChange}
+            />
           </Route>
           <Route path="/signup">
             <SignUp />
           </Route>
           <Route path="/welcome">
-            <Welcome logo={this.state.logo} />
+            <Welcome />
           </Route>
           <Route exact path="/">
             <Login />

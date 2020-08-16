@@ -80,7 +80,9 @@ class Login extends React.Component {
         <Link to="/welcome">
           <button type="button">Go to welcome demo</button>
         </Link>
-
+        <Link to="/search">
+          <button type="button">Go to search demo</button>
+        </Link>
         <Link to="/myitems">
           <button type="button">Go to items demo</button>
         </Link>
