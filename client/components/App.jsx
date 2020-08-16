@@ -1,6 +1,6 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
+import { join } from path;
 import Login from './Login';
 import Welcome from './Welcome';
 import SignUp from './SignUp';
@@ -18,25 +18,48 @@ class App extends React.Component {
       search: '',
       locations: ['kitchen', 'storage', 'living room'],
       items: ['sawyer', 'lizzy', 'dodo'],
+      container: ['box', 'drawer', 'floor'],
     };
     this.itemLookup = this.itemLookup.bind(this);
+    this.locationLookup = this.locationLookup.bind(this);
+    this.containerLookup = this.containerLookup.bind(this);
   }
 
   // Fetch requests for items, and locations
   async itemLookup(event) {
+    // Create dynamic url based on search information
+    const url = join('http://localhost:3000/api/items', userID);
     event.preventDefault();
     try {
-      const response = await fetch('url', {
-        method: 'POST',
-        body: JSON.stringify({ search: this.state.search }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      // Update state with result from fetch request
-      // this.setState({ dynamicllyAssignedKey: response });
+      let response = await fetch(url, {});
+      response.json();
+      this.setState({ items: response });
     } catch (error) {
-      console.log('Error in signUpSubmit: ', error);
+      console.log('Error in APP.jsx itemLookup: ', error);
+    }
+  }
+
+  async locationLookup(event) {
+    const url = join('http://localhost:3000/api/location/', userID);
+    event.preventDefault();
+    try {
+      let response = await fetch(url, {});
+      response.json();
+      this.setState({ location: response });
+    } catch (error) {
+      console.log('Error in APP.jsx locationLookup: ', error);
+    }
+  }
+
+  async containerLookup(event) {
+    const url = join('http://localhost:3000/api/container/', userID);
+    event.preventDefault();
+    try {
+      let response = await fetch(url, {});
+      response.json();
+      this.setState({ container: response });
+    } catch (error) {
+      console.log('Error in APP.jsx containerLookup: ', error);
     }
   }
 
@@ -57,13 +80,13 @@ class App extends React.Component {
             <ResetPassword />
           </Route>
           <Route path="/search">
-            <Search search={this.props.search} />
+            <Search search={this.state.search} />
           </Route>
           <Route path="/signup">
             <SignUp />
           </Route>
           <Route path="/welcome">
-            <Welcome logo={this.props.logo} />
+            <Welcome logo={this.state.logo} />
           </Route>
           <Route exact path="/">
             <Login />
