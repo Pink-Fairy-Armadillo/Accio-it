@@ -6,27 +6,58 @@ const userController = require('../controllers/userController');
 
 const router = express.Router();
 
-router.get('/', accioController.getAllItems, (req, res) =>
-  res.status(200).json(res.locals.allItems),
-);
+// send back userId as cookie
+router.post('/addUser', accioController.addUser, (req, res) => {
+  res.status(200).json(res.locals.userId);
+});
 
-router.get('/room/:name', accioController.getRoom, (req, res) =>
-  res.status(200).json(res.locals.room),
-);
+// send back userId in response, if password does not match, client will receive 400
+router.post('/verifyUser', accioController.verifyUser, (req, res) => {
+  res.status(200).json(res.locals.userId);
+});
 
+// get all items for user
+router.get('/allItems/:userId', accioController.getAllItems, (req, res) => {
+  res.status(200).json(res.locals.allItems);
+});
+
+// user adds an item
+router.post('/addItem', accioController.addItem, (req, res) => {
+  res.status(200).json({ message: 'success adding item to db' });
+});
+
+// user searches an item
 router.get(
-  '/container/:containerName',
-  accioController.getContainer,
-  (req, res) => res.status(200).json(res.locals.container),
+  '/getItem/:userId/:item_name',
+  accioController.getItem,
+  (req, res) => {
+    res.status(200).json(res.locals.itemInfo);
+  }
 );
 
-router.get('/item/:itemName', accioController.getItem, (req, res) =>
-  res.status(200).json(res.locals.item),
+// user updates an item, data in req.body
+router.patch('/updateItem', accioController.updateItem, (req, res) => {
+  res.status(200).json({ message: 'success updating the item' });
+});
+
+// user deletes an item
+router.delete(
+  '/delete/:userId/:item_name',
+  accioController.deleteItem,
+  (req, res) => {
+    res.status(200).json({ message: 'success deleting the item' });
+  }
 );
 
-router.post('/item', accioController.addItem, (req, res) =>
-  res.status(200).json({ message: 'success adding item to db' }),
-);
+// get a list of all locations for user
+router.get('/locations/:userId', accioController.getLocations, (req, res) => {
+  res.status(200).json(res.locals.locations);
+});
+
+// get a list of all containers for user
+router.get('/containers/:userId', accioController.getContainers, (req, res) => {
+  res.status(200).json(res.locals.containers);
+});
 
 router.post('/addUser', userController.addUser, (req, res) => {
   res.status(200);
