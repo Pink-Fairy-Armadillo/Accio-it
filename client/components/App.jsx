@@ -105,13 +105,10 @@ class App extends React.Component {
             <SignUp handleLogin={this.handleLogin} />
           </Route>
           <Route path="/welcome">
-            <Welcome
-              name={this.state.preferred_name}
-              handleLogin={this.handleLogin}
-            />
+            <Welcome name={this.state.preferred_name} />
           </Route>
           <Route exact path="/">
-            <Login />
+            <Login handleLogin={this.handleLogin} />
           </Route>
           <Route path="/newitem">
             <NewItem userId={this.state.userId} />
