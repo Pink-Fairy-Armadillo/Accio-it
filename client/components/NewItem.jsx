@@ -2,45 +2,43 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
-// import Login from './Login'
-class Signup extends Component {
+class NewItem extends Component {
   constructor(props) {
     super(props);
-    this.signUpSubmit = this.signUpSubmit.bind(this);
+    this.newItemSubmit = this.newItemSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-    this.state = { email: '', password: '', name: '' };
+    this.state = { item_name: '', container: '', location: '' };
   }
   handleChange(event) {
     this.setState({ ...this.state, [event.target.name]: event.target.value });
   }
 
-  async signUpSubmit(event) {
+  async newItemSubmit(event) {
     event.preventDefault();
     try {
       const response = await (
-        await fetch('http://localhost:3000/api/addUser', {
+        await fetch('http://localhost:3000/api/addItem', {
           method: 'POST',
           body: JSON.stringify({
-            email: this.state.email,
-            password: this.state.password,
-            preferred_name: this.state.name,
+            userId: this.props.userId,
+            item_name: this.state.item,
+            container: this.state.container,
+            location: this.state.location,
           }),
           headers: {
             'Content-Type': 'application/json',
           },
         })
       ).json();
-      console.log('response:', response);
-      //console.log('response body', response.body);
-      if (!response.err) {
-        this.props.handleLogin(response);
+      console.log('response body', response);
+      if (response.status === 200) {
         this.props.history.replace('/welcome');
       } else {
-        alert('Username already exists!');
+        alert('That did not work, try again!');
       }
       // logic for what we want it to do after signup (if response is 200 or not)
     } catch (error) {
-      console.log('Error in signUpSubmit: ', error);
+      console.log('Error in newItemSubmit: ', error);
     }
   }
 
@@ -52,31 +50,31 @@ class Signup extends Component {
             Accio Home!
           </button>
         </Link>
-        <form onSubmit={this.signUpSubmit}>
+        <form onSubmit={this.newItemSubmit}>
           <div>
-            Name:
+            Item:
             <input
-              name="name"
+              name="item"
               value={this.state.name}
               type="text"
               onChange={this.handleChange}
             ></input>
           </div>
           <div>
-            Email:
+            Container:
             <input
-              name="email"
+              name="container"
               value={this.state.email}
               type="text"
               onChange={this.handleChange}
             ></input>
           </div>
           <div>
-            Password:
+            Location:
             <input
-              name="password"
+              name="location"
               value={this.state.password}
-              type="password"
+              type="text"
               onChange={this.handleChange}
             ></input>
           </div>
@@ -87,4 +85,4 @@ class Signup extends Component {
   }
 }
 
-export default withRouter(Signup);
+export default withRouter(NewItem);

@@ -11,15 +11,16 @@ class MyLocations extends Component {
   componentDidMount() {
     (async () => {
       await this.props.dbLookup('locations');
-      // this.locations = await this.props.locations.map((item, i) => (
-      //   <ItemInfo
-      //     key={`location${i}`}
-      //     item={item.item_name}
-      //     location={item.location}
-      //     container={item.container}
-      //   />
-      // ));
-      // this.forceUpdate();
+      await this.props.dbLookup('allitems');
+      this.locations = await this.props.locations.map((item, i) => (
+        <LocationInfo
+          key={`location${i}`}
+          item={item.item_name}
+          location={item.location}
+          container={item.container}
+        />
+      ));
+      this.forceUpdate();
     })();
   }
 
