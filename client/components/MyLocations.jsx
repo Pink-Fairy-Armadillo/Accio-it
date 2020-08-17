@@ -1,26 +1,42 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import LocationInfo from './LocationInfo';
 
-function MyLocations(props) {
-  //component did mount to fetch location data from backend
+class MyLocations extends Component {
+  constructor(props) {
+    super(props);
+    this.locations = [];
+  }
 
-  const locations = props.locations.map((item, i) => {
-    return <LocationInfo key={`location${i}`} location={item} />;
-  });
+  componentDidMount() {
+    (async () => {
+      await this.props.dbLookup('locations');
+      // this.locations = await this.props.locations.map((item, i) => (
+      //   <ItemInfo
+      //     key={`location${i}`}
+      //     item={item.item_name}
+      //     location={item.location}
+      //     container={item.container}
+      //   />
+      // ));
+      // this.forceUpdate();
+    })();
+  }
 
-  return (
-    <div>
-      <Link to="/welcome">
-        <button className="home" type="button">
-          Accio Home!
-        </button>
-      </Link>
-      <div className="title">My Locations</div>
-      <button type="button">add location ++</button>
-      {locations}
-    </div>
-  );
+  render() {
+    return (
+      <div>
+        <Link to="/welcome">
+          <button className="home" type="button">
+            Accio Home!
+          </button>
+        </Link>
+        <div className="title">My Locations</div>
+        <button type="button">add location ++</button>
+        {(this.locations.length && this.locations) || `Please add some locations, ${this.props.name}!`}
+      </div>
+    );
+  }
 }
 
 export default MyLocations;

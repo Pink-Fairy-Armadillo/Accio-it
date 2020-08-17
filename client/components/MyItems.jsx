@@ -11,7 +11,14 @@ class MyItems extends Component {
   componentDidMount() {
     (async () => {
       await this.props.dbLookup('allitems');
-      this.items = await this.props.items.map((item, i) => <ItemInfo key={`item${i}`} item={item.item_name} />);
+      this.items = await this.props.items.map((item, i) => (
+        <ItemInfo
+          key={`item${i}`}
+          item={item.item_name}
+          location={item.location}
+          container={item.container}
+        />
+      ));
       this.forceUpdate();
     })();
   }

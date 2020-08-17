@@ -1,16 +1,32 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
 
-function ItemInfo(props) {
-  //component did mount to fetch location data from backend
+class ItemInfo extends Component {
+  constructor(props) {
+    super(props);
+    this.clicked = false;
+    this.result = <div>
+                    <p><b>Location: </b>{this.props.location}</p>
+                    <p><b>Container: </b>{this.props.container}</p>
+                  </div>;
+    this.handleClick = this.handleClick.bind(this);
+  }
 
-  return (
-    <div>
-      <div>{props.item}</div>
-      <button type="button">Delete Item</button>
-      <button type="button">Where is it?</button>
-    </div>
-  );
+  handleClick(event) {
+    event.preventDefault();
+    this.clicked = !this.clicked;
+    this.forceUpdate();
+  }
+
+  render() {
+    return (
+      <div>
+        <div>{this.props.item}</div>
+        <button type="button">Delete Item</button>
+        <button type="button" onClick={(e) => this.handleClick(e)}>{this.clicked ? 'Show me less' : 'Where is it?'}</button>
+        {this.clicked && this.result}
+      </div>
+    );
+  }
 }
 
 export default ItemInfo;

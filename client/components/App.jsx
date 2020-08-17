@@ -34,9 +34,10 @@ class App extends React.Component {
 
   async dbLookup(path) {
     try {
-      // Get requests. 'path' is (allItems || containers || locations)
+      // Get requests. 'path' is (allitems || containers || locations)
       const response = await (await fetch(`http://localhost:3000/api/${path}/${this.state.userId}`)).json();
       this.setState({ [path]: response });
+      console.log(response);
     } catch (error) {
       console.log(`Error in APP.jsx ${path} dbLookup: `, error);
     }
@@ -71,7 +72,8 @@ class App extends React.Component {
             <MyLocations
               id={this.state.userId}
               locations={this.state.locations}
-              dbLookup={this.state.dbLookup}
+              name={this.state.preferred_name}
+              dbLookup={this.dbLookup}
             />
           </Route>
           <Route path="/reset">
