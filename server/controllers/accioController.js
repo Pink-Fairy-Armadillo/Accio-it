@@ -193,9 +193,10 @@ accioController.getLocations = async (req, res, next) => {
         responseObj[location].items.push(itemObj.item_name);
       }
     }
-
+    
+    const responseArr = Object.values(responseObj);
     // { location: String, containers: Array, items: Array }
-    res.locals.locations = responseObj;
+    res.locals.locations = responseArr;
     next();
   } catch (error) {
     console.log('error happened in getLocations');
