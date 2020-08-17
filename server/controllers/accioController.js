@@ -20,6 +20,10 @@ accioController.addUser = async (req, res, next) => {
     console.log('userId is: ', data.rows[0].id);
     console.log('password is: ', data.rows[0].password);
     res.locals.userId = data.rows[0].id;
+    res.locals.preferred_name = data.rows[0].preferred_name;
+
+    // res.locals.userId = { userId: data.rows[0].id };
+    // res.locals.preferred_name = { preferred_name: data.rows[0].preferred_name };
 
     const tableStr = `create table collection_${res.locals.userId} (
       id BIGSERIAL NOT NULL PRIMARY KEY,
@@ -47,7 +51,8 @@ accioController.verifyUser = async (req, res, next) => {
     console.log('password is: ', data.rows[0].password);
     const passwordInDb = data.rows[0].password;
     if (passwordInDb === password) {
-      res.locals.userId = { userId: data.rows[0].id };
+      res.locals.userId = data.rows[0].id;
+      res.locals.preferred_name = data.rows[0].preferred_name;
       next();
     } else {
       console.log('password does not match');
@@ -120,7 +125,7 @@ accioController.updateItem = async (req, res, next) => {
     const { userId, item_name } = req.body;
     const infoArr = Object.keys(req.body);
     console.log(infoArr);
-    for (let eachKey of infoArr) {
+    for (const eachKey of infoArr) {
       if (eachKey !== 'userId' && eachKey !== 'item_name') {
         const string = `UPDATE collection_${userId} 
         SET ${eachKey} = '${req.body[eachKey]}'
@@ -150,16 +155,11 @@ accioController.deleteItem = async (req, res, next) => {
 accioController.getLocations = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const string = `SELECT * FROM collection_${userId};`;
+
+    const string = `SELECT DISTINCT location FROM collection_${userId} ORDER BY location ASC;`;
     const data = await db.query(string);
-    const itemsArr = data.rows;
+    const locationsArr = data.rows.map((obj) => obj.location);
 
-    const locationsSet = new Set();
-    for (let itemObj of itemsArr) {
-      locationsSet.add(itemObj.location);
-    }
-
-    const locationsArr = Array.from([...locationsSet]);
     res.locals.locations = locationsArr;
     next();
   } catch (error) {
@@ -171,16 +171,11 @@ accioController.getLocations = async (req, res, next) => {
 accioController.getContainers = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const string = `SELECT * FROM collection_${userId};`;
+
+    const string = `SELECT DISTINCT container FROM collection_${userId} ORDER BY container ASC;`;
     const data = await db.query(string);
-    const itemsArr = data.rows;
+    const containersArr = data.rows.map((obj) => obj.container);
 
-    const containersSet = new Set();
-    for (let itemObj of itemsArr) {
-      containersSet.add(itemObj.container);
-    }
-
-    const containersArr = Array.from([...containersSet]);
     res.locals.containers = containersArr;
     next();
   } catch (error) {
