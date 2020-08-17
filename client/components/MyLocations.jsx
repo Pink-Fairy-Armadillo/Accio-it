@@ -12,12 +12,12 @@ class MyLocations extends Component {
     (async () => {
       await this.props.dbLookup('locations');
       await this.props.dbLookup('allitems');
-      this.locations = await this.props.locations.map((item, i) => (
+      this.locations = await this.props.locations.map((location, i) => (
         <LocationInfo
           key={`location${i}`}
-          item={item.item_name}
-          location={item.location}
-          container={item.container}
+          items={location.item_name}
+          containers={location.container}
+          location={location.location_name}
         />
       ));
       this.forceUpdate();

@@ -14,8 +14,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: '',
-      preferred_name: '',
+      userId: '1',
+      preferred_name: 'Hagrid',
       allitems: [],
       containers: [],
       locations: [],
