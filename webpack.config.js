@@ -13,6 +13,7 @@ module.exports = {
     // contentBase: path.resolve(__dirname, '/'),
     hot: true,
     publicPath: '/build',
+    historyApiFallback: true,
     proxy: {
       '/server': 'http://localhost:3000',
     },
