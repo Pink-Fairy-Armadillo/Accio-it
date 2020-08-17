@@ -7,7 +7,6 @@ function LocationInfo(props) {
   return (
     <div>
       <div>{props.location}</div>
-      <button type="button">Delete Location</button>
       <button type="button">What Items Are Here?</button>
     </div>
   );
