@@ -1,15 +1,26 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
 function Search(props) {
   let result;
   if (props.searchResult.length) {
     const item = props.searchResult[0];
-    result = <div id="searchResult">
-               <p><b>Item: </b>{item.item_name}</p>
-               <p><b>Location: </b>{item.location}</p>
-               <p><b>Container: </b>{item.container}</p>
-             </div>;
+    result = (
+      <div id="searchResult">
+        <p>
+          <b>Item: </b>
+          {item.item_name}
+        </p>
+        <p>
+          <b>Location: </b>
+          {item.location}
+        </p>
+        <p>
+          <b>Container: </b>
+          {item.container}
+        </p>
+      </div>
+    );
   }
 
   return (
@@ -31,6 +42,7 @@ function Search(props) {
             onChange={(e) => props.handleChange(e)}
           ></input>
           <input
+            className="bigger-btn"
             type="submit"
             value="Accio!"
             onClick={(e) => props.dbSearch(e, props.search)}
@@ -42,4 +54,4 @@ function Search(props) {
   );
 }
 
-export default Search;
+export default withRouter(Search);

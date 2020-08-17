@@ -3,13 +3,14 @@ import { Switch, Route } from 'react-router-dom';
 import Login from './Login';
 import Welcome from './Welcome';
 import SignUp from './SignUp';
-import ResetPassword from './ResetPassword';
+import ChangePassword from './ChangePassword';
 import MyItems from './MyItems';
 import MyLocations from './MyLocations';
 import Forgotinfo from './ForgotInfo';
 import Search from './Search';
 import NewItem from './NewItem';
 import NewLocation from './NewLocation';
+import './Style.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -49,6 +50,7 @@ class App extends React.Component {
         await fetch(`http://localhost:3000/api/${path}/${this.state.userId}`)
       ).json();
       this.setState({ [path]: response });
+      console.log(response);
     } catch (error) {
       console.log(`Error in APP.jsx ${path} dbLookup: `, error);
     }
@@ -87,11 +89,12 @@ class App extends React.Component {
             <MyLocations
               userId={this.state.userId}
               locations={this.state.locations}
-              dbLookup={this.state.dbLookup}
+              name={this.state.preferred_name}
+              dbLookup={this.dbLookup}
             />
           </Route>
           <Route path="/reset">
-            <ResetPassword />
+            <ChangePassword />
           </Route>
           <Route path="/search">
             <Search

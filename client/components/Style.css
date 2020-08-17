@@ -1,0 +1,82 @@
+body {
+  font-family: 'Open Sans Condensed';
+  text-align: center;
+}
+
+button {
+  width: auto;
+  height: 30px;
+  letter-spacing: 1px;
+  line-height: 30px;
+  padding: 0 15px;
+  margin: 5px 10px;
+  font-size: 15px;
+  background-color: powderblue;
+  color: white;
+  text-transform: uppercase;
+  font-weight: normal;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+input {
+  margin: 10px;
+}
+
+p {
+  font-size: 20px;
+  margin: 10px;
+}
+
+.each-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.demo-btn-row {
+  margin: 30px auto 50px;
+}
+
+.bigger-btn {
+  min-width: 120px;
+  width: auto;
+  letter-spacing: 1px;
+  padding: 10px 50px;
+  margin: 25px 10px 40px;
+  font-size: 20px;
+  background-color: navy;
+  color: white;
+  text-transform: uppercase;
+  font-family: 'Open Sans Condensed';
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.logo {
+  margin: 150px auto 150px;
+  font-size: 150px;
+  font-family: 'Henny Penny', cursive;
+  color: #1b262c;
+}
+
+.item-div {
+  background-color: #f9f7d9;
+  padding: 20px;
+  margin: 10px auto;
+  width: 30vw;
+  border-radius: 10px;
+}
+
+.item-div-name {
+  font-size: 20px;
+  margin: 20px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: white;
+  color: darkblue;
+  font-weight: bolder;
+}

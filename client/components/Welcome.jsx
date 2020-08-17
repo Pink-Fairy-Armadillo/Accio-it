@@ -18,7 +18,15 @@ function Welcome(props) {
             Locations
           </button>
         </Link>
+        <Link to="/search">
+          <button type="button">Accio it!</button>
+        </Link>
       </div>
+      <Link to="/reset">
+        <button id="ResetPassword" type="button">
+          Reset Password
+        </button>
+      </Link>
     </div>
   );
 }

@@ -65,6 +65,21 @@ accioController.verifyUser = async (req, res, next) => {
   }
 };
 
+accioController.resetPassword = async (req, res, next) => {
+  try {
+    const { email, newPassword } = req.body;
+
+    const string = `UPDATE users 
+    SET password = '${newPassword}'
+    WHERE email = '${email}';`;
+    await db.query(string);
+    next();
+  } catch (error) {
+    console.log('error happened in resetPassword');
+    res.status(400).send('sorry, we are unable to reset your password now');
+  }
+};
+
 accioController.getAllItems = async (req, res, next) => {
   try {
     const { userId } = req.params;
@@ -121,10 +136,10 @@ accioController.getItem = async (req, res, next) => {
 
 accioController.updateItem = async (req, res, next) => {
   try {
-    console.log(req.body);
+    // console.log(req.body);
     const { userId, item_name } = req.body;
     const infoArr = Object.keys(req.body);
-    console.log(infoArr);
+    // console.log(infoArr);
     for (const eachKey of infoArr) {
       if (eachKey !== 'userId' && eachKey !== 'item_name') {
         const string = `UPDATE collection_${userId} 
@@ -156,11 +171,32 @@ accioController.getLocations = async (req, res, next) => {
   try {
     const { userId } = req.params;
 
-    const string = `SELECT DISTINCT location FROM collection_${userId} ORDER BY location ASC;`;
-    const data = await db.query(string);
-    const locationsArr = data.rows.map((obj) => obj.location);
+    // const string = `SELECT DISTINCT location FROM collection_${userId} ORDER BY location ASC;`;
+    // const data = await db.query(string);
+    // const locationsArr = data.rows.map((obj) => obj.location);
+    // res.locals.locations = locationsArr;
 
-    res.locals.locations = locationsArr;
+    const string = `SELECT * FROM collection_${userId}`;
+    const data = await db.query(string);
+    const dataArr = data.rows;
+
+    const responseObj = {};
+
+    for (const itemObj of dataArr) {
+      const { location } = itemObj;
+      if (!responseObj[location]) {
+        responseObj[location] = { location: itemObj.location, containers: [itemObj.container], items: [itemObj.item_name] };
+      } else {
+        if (!responseObj[location].containers.includes(itemObj.container)) {
+          responseObj[location].containers.push(itemObj.container);
+        }
+        responseObj[location].items.push(itemObj.item_name);
+      }
+    }
+    
+    const responseArr = Object.values(responseObj);
+    // { location: String, containers: Array, items: Array }
+    res.locals.locations = responseArr;
     next();
   } catch (error) {
     console.log('error happened in getLocations');

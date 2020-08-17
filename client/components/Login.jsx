@@ -80,27 +80,30 @@ class Login extends React.Component {
 
   render() {
     return (
-      <div>
-        <Link to="/forgotinfo">
-          <button className="forgotinfo" type="button">
-            forgotinfo
-          </button>
-        </Link>
-        <Link to="/signup">
-          <button type="button">Register</button>
-        </Link>
-        <Link to="/welcome">
-          <button type="button">Go to welcome demo</button>
-        </Link>
-        <Link to="/search">
-          <button type="button">Go to search demo</button>
-        </Link>
-        <Link to="/myitems">
-          <button type="button">Go to items demo</button>
-        </Link>
-        <Link to="/mylocations">
-          <button type="button">Go to locations demo</button>
-        </Link>
+      <div className="each-page">
+        <h1 className="logo">Accio It</h1>
+        <div className="demo-btn-row">
+          <Link to="/forgotinfo">
+            <button className="forgotinfo" type="button">
+              Forgot Info
+            </button>
+          </Link>
+          <Link to="/signup">
+            <button type="button">Register</button>
+          </Link>
+          {/* <Link to="/welcome">
+            <button type="button">Go to welcome demo</button>
+          </Link> */}
+          {/* <Link to="/search">
+            <button type="button">Go to search demo</button>
+          </Link>
+          <Link to="/myitems">
+            <button type="button">Go to items demo</button>
+          </Link>
+          <Link to="/mylocations">
+            <button type="button">Go to locations demo</button>
+          </Link> */}
+        </div>
         <form onSubmit={this.handleSubmit}>
           <div>
             Email:
@@ -120,9 +123,9 @@ class Login extends React.Component {
               onChange={this.handleChange}
             ></input>
           </div>
-          <input type="submit" value="Login"></input>
+          <input className="bigger-btn" type="submit" value="Login"></input>
         </form>
-        <div className="g-signin2" onClick={this.onSignIn}></div>
+        {/* <div className="g-signin2" onClick={this.onSignIn}></div> */}
       </div>
     );
   }
