@@ -20,6 +20,10 @@ accioController.addUser = async (req, res, next) => {
     console.log('userId is: ', data.rows[0].id);
     console.log('password is: ', data.rows[0].password);
     res.locals.userId = data.rows[0].id;
+    res.locals.preferred_name = data.rows[0].preferred_name;
+
+    // res.locals.userId = { userId: data.rows[0].id };
+    // res.locals.preferred_name = { preferred_name: data.rows[0].preferred_name };
 
     const tableStr = `create table collection_${res.locals.userId} (
       id BIGSERIAL NOT NULL PRIMARY KEY,
@@ -47,7 +51,8 @@ accioController.verifyUser = async (req, res, next) => {
     console.log('password is: ', data.rows[0].password);
     const passwordInDb = data.rows[0].password;
     if (passwordInDb === password) {
-      res.locals.userId = { userId: data.rows[0].id };
+      res.locals.userId = data.rows[0].id;
+      res.locals.preferred_name = data.rows[0].preferred_name;
       next();
     } else {
       console.log('password does not match');
@@ -120,7 +125,7 @@ accioController.updateItem = async (req, res, next) => {
     const { userId, item_name } = req.body;
     const infoArr = Object.keys(req.body);
     console.log(infoArr);
-    for (let eachKey of infoArr) {
+    for (const eachKey of infoArr) {
       if (eachKey !== 'userId' && eachKey !== 'item_name') {
         const string = `UPDATE collection_${userId} 
         SET ${eachKey} = '${req.body[eachKey]}'

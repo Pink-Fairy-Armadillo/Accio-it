@@ -7,12 +7,12 @@ const router = express.Router();
 
 // send back userId as cookie
 router.post('/addUser', accioController.addUser, (req, res) => {
-  res.status(200).json(res.locals.userId);
+  res.status(200).json({ userId: res.locals.userId, preferred_name: res.locals.preferred_name });
 });
 
 // send back userId in response, if password does not match, client will receive 400
 router.post('/verifyUser', accioController.verifyUser, (req, res) => {
-  res.status(200).json(res.locals.userId);
+  res.status(200).json({ userId: res.locals.userId, preferred_name: res.locals.preferred_name });
 });
 
 // get all items for user
@@ -31,7 +31,7 @@ router.get(
   accioController.getItem,
   (req, res) => {
     res.status(200).json(res.locals.itemInfo);
-  }
+  },
 );
 
 // user updates an item, data in req.body
@@ -45,7 +45,7 @@ router.delete(
   accioController.deleteItem,
   (req, res) => {
     res.status(200).json({ message: 'success deleting the item' });
-  }
+  },
 );
 
 // get a list of all locations for user
