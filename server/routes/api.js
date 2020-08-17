@@ -16,6 +16,11 @@ router.post('/verifyUser', accioController.verifyUser, (req, res) => {
   res.status(200).json({ userId: res.locals.userId, preferred_name: res.locals.preferred_name });
 });
 
+// reset password for user
+router.patch('/resetPassword', accioController.resetPassword, (req, res) => {
+  res.status(200).json({ message: 'success updating item to db' });
+});
+
 // get all items for user
 router.get('/allItems/:userId', accioController.getAllItems, (req, res) => {
   res.status(200).json(res.locals.allItems);

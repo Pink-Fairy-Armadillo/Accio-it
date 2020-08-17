@@ -50,19 +50,22 @@ class Login extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch('http://localhost:3000/api/verifyUser', {
-        method: 'POST',
-        body: JSON.stringify({
-          email: this.state.email,
-          password: this.state.password,
-        }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
+      const response = await (
+        await fetch('http://localhost:3000/api/verifyUser', {
+          method: 'POST',
+          body: JSON.stringify({
+            email: this.state.email,
+            password: this.state.password,
+            preferred_name: this.state.name,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        })
+      ).json();
       console.log('response from login fetch:', response);
-      if (response.status === 200) {
-        this.props.handleLogin(response.body);
+      if (!response.err) {
+        this.props.handleLogin(response);
         this.props.history.replace('/welcome');
       } else {
         alert(
