@@ -17,7 +17,9 @@ function MyLocations(props) {
         </button>
       </Link>
       <div className="title">My Locations</div>
-      <button type="button">add location ++</button>
+      <Link to="/newlocation">
+        <button type="button">add location ++</button>
+      </Link>
       {locations}
     </div>
   );
