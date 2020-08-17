@@ -77,7 +77,7 @@ class App extends React.Component {
           </Route>
           <Route path="/myitems">
             <MyItems
-              id={this.state.userId}
+              userId={this.state.userId}
               items={this.state.allitems}
               name={this.state.preferred_name}
               dbLookup={this.dbLookup}
@@ -85,7 +85,7 @@ class App extends React.Component {
           </Route>
           <Route path="/mylocations">
             <MyLocations
-              id={this.state.userId}
+              userId={this.state.userId}
               locations={this.state.locations}
               dbLookup={this.state.dbLookup}
             />
