@@ -62,6 +62,7 @@ class Login extends React.Component {
       });
       console.log('response from login fetch:', response);
       if (response.status === 200) {
+        this.props.handleLogin(response.body);
         this.props.history.replace('/welcome');
       } else {
         alert(

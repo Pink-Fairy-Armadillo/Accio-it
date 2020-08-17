@@ -8,12 +8,13 @@ import MyItems from './MyItems';
 import MyLocations from './MyLocations';
 import Forgotinfo from './ForgotInfo';
 import Search from './Search';
+import NewItem from './NewItem';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 1,
+      userId: '',
       preferred_name: '',
       allitems: [],
       containers: [],
@@ -24,13 +25,20 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.dbSearch = this.dbSearch.bind(this);
     this.dbLookup = this.dbLookup.bind(this);
-    // this.nameLookup = this.nameLookup.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   // handleChange for search bar functionality
   handleChange(event) {
     event.preventDefault();
     this.setState({ search: event.target.value });
+  }
+
+  handleLogin(response) {
+    this.setState({
+      userId: response.userId,
+      preferred_name: response.preferred_name,
+    });
   }
 
   async dbLookup(path) {
@@ -94,13 +102,19 @@ class App extends React.Component {
             />
           </Route>
           <Route path="/signup">
-            <SignUp />
+            <SignUp handleLogin={this.handleLogin} />
           </Route>
           <Route path="/welcome">
-            <Welcome name={this.state.preferred_name} />
+            <Welcome
+              name={this.state.preferred_name}
+              handleLogin={this.handleLogin}
+            />
           </Route>
           <Route exact path="/">
             <Login />
+          </Route>
+          <Route path="/newitem">
+            <NewItem userId={this.state.userId} />
           </Route>
         </Switch>
       </div>
