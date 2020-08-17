@@ -2,37 +2,29 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { withRouter, Switch, Route } from 'react-router-dom';
 
-class NewItem extends Component {
+class NewLocation extends Component {
   constructor(props) {
     super(props);
-    this.newItemSubmit = this.newItemSubmit.bind(this);
+    this.newLocation = this.newLocation.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      item_name: '',
-      container: '',
       location: '',
-      description: '',
-      last_use: new Date().toISOString().slice(0, 10),
-      price: null,
+      container: '',
     };
   }
   handleChange(event) {
     this.setState({ ...this.state, [event.target.name]: event.target.value });
   }
 
-  async newItemSubmit(event) {
+  async newLocation(event) {
     event.preventDefault();
     try {
       const response = await fetch('http://localhost:3000/api/addItem', {
         method: 'POST',
         body: JSON.stringify({
           userId: this.props.userId,
-          item_name: this.state.item_name,
-          container: this.state.container,
           location: this.state.location,
-          description: this.state.description,
-          last_use: this.state.last_use,
-          price: this.state.price,
+          container: this.state.container,
         }),
 
         headers: {
@@ -60,12 +52,12 @@ class NewItem extends Component {
             Accio Home!
           </button>
         </Link>
-        <form onSubmit={this.newItemSubmit}>
+        <form onSubmit={this.newLocation}>
           <div>
-            Item:
+            Location:
             <input
-              name="item_name"
-              value={this.state.item_name}
+              name="location"
+              value={this.state.location}
               type="text"
               onChange={this.handleChange}
             ></input>
@@ -79,42 +71,7 @@ class NewItem extends Component {
               onChange={this.handleChange}
             ></input>
           </div>
-          <div>
-            Location:
-            <input
-              name="location"
-              value={this.state.location}
-              type="text"
-              onChange={this.handleChange}
-            ></input>
-          </div>
-          <div>
-            Description:
-            <input
-              name="description"
-              value={this.state.description}
-              type="text"
-              onChange={this.handleChange}
-            ></input>
-          </div>
-          {/* <div>
-            Last Used:
-            <input
-              name="last_use"
-              value={this.state.last_use}
-              type="text"
-              onChange={this.handleChange}
-            ></input>
-          </div>
-          <div>
-            Price:
-            <input
-              name="price"
-              value={this.state.price}
-              type="text"
-              onChange={this.handleChange}
-            ></input>
-          </div> */}
+
           <input type="submit" value="Submit" />
         </form>
       </div>
@@ -122,4 +79,4 @@ class NewItem extends Component {
   }
 }
 
-export default withRouter(NewItem);
+export default withRouter(NewLocation);

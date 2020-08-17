@@ -3,12 +3,14 @@ import { Switch, Route } from 'react-router-dom';
 import Login from './Login';
 import Welcome from './Welcome';
 import SignUp from './SignUp';
-import ResetPassword from './ResetPassword';
+import ChangePassword from './ChangePassword';
 import MyItems from './MyItems';
 import MyLocations from './MyLocations';
 import Forgotinfo from './ForgotInfo';
 import Search from './Search';
 import NewItem from './NewItem';
+import NewLocation from './NewLocation';
+import './Style.css';
 
 class App extends React.Component {
   constructor(props) {
@@ -77,7 +79,7 @@ class App extends React.Component {
           </Route>
           <Route path="/myitems">
             <MyItems
-              id={this.state.userId}
+              userId={this.state.userId}
               items={this.state.allitems}
               name={this.state.preferred_name}
               dbLookup={this.dbLookup}
@@ -85,14 +87,14 @@ class App extends React.Component {
           </Route>
           <Route path="/mylocations">
             <MyLocations
-              id={this.state.userId}
+              userId={this.state.userId}
               locations={this.state.locations}
               name={this.state.preferred_name}
               dbLookup={this.dbLookup}
             />
           </Route>
           <Route path="/reset">
-            <ResetPassword />
+            <ChangePassword />
           </Route>
           <Route path="/search">
             <Search
@@ -114,6 +116,9 @@ class App extends React.Component {
           </Route>
           <Route path="/newitem">
             <NewItem userId={this.state.userId} />
+          </Route>
+          <Route path="/newlocation">
+            <NewLocation userId={this.state.userId} />
           </Route>
         </Switch>
       </div>

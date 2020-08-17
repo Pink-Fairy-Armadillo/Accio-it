@@ -33,7 +33,8 @@ class MyLocations extends Component {
         </Link>
         <div className="title">My Locations</div>
         <button type="button">add location ++</button>
-        {(this.locations.length && this.locations) || `Please add some locations, ${this.props.name}!`}
+        {(this.locations.length && this.locations) ||
+          `Please add some locations, ${this.props.name}!`}
       </div>
     );
   }
