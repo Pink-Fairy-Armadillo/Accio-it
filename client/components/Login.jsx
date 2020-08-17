@@ -9,7 +9,7 @@ class Login extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
 
-    this.state = { username: '', password: '' };
+    this.state = { email: '', password: '' };
   }
 
   handleChange(event) {
@@ -52,13 +52,14 @@ class Login extends React.Component {
       const response = await fetch('url', {
         method: 'POST',
         body: JSON.stringify({
-          username: this.state.username,
+          email: this.state.email,
           password: this.state.password,
         }),
         headers: {
           'Content-Type': 'application/json',
         },
       });
+      console.log('response from login fetch:', response);
       //logic for what we want it to do after login (if response is 200 or not)
     } catch (error) {
       console.log('Error in handleSubmit of Login:', error);
@@ -69,29 +70,31 @@ class Login extends React.Component {
     return (
       <div>
         <Link to="/forgotinfo">
-  <button className="forgotinfo" type="button">
-    forgotinfo
-  </button>
-</Link>
+          <button className="forgotinfo" type="button">
+            forgotinfo
+          </button>
+        </Link>
         <Link to="/signup">
           <button type="button">Register</button>
-        </Link> 
+        </Link>
         <Link to="/welcome">
           <button type="button">Go to welcome demo</button>
         </Link>
-
+        <Link to="/search">
+          <button type="button">Go to search demo</button>
+        </Link>
         <Link to="/myitems">
           <button type="button">Go to items demo</button>
         </Link>
         <Link to="/mylocations">
           <button type="button">Go to locations demo</button>
         </Link>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <div>
-            Username:
+            Email:
             <input
-              name="username"
-              value={this.state.username}
+              name="email"
+              value={this.state.email}
               type="text"
               onChange={this.handleChange}
             ></input>

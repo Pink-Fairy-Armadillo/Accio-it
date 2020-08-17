@@ -2,6 +2,7 @@
 const express = require('express');
 
 const accioController = require('../controllers/accioController'); // middlewares
+const userController = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -56,6 +57,10 @@ router.get('/locations/:userId', accioController.getLocations, (req, res) => {
 // get a list of all containers for user
 router.get('/containers/:userId', accioController.getContainers, (req, res) => {
   res.status(200).json(res.locals.containers);
+});
+
+router.post('/addUser', userController.addUser, (req, res) => {
+  res.status(200);
 });
 
 module.exports = router;

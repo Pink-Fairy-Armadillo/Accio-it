@@ -1,6 +1,5 @@
 import React from 'react';
-import { render } from 'react-dom';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { Switch, Route } from 'react-router-dom';
 import Login from './Login';
 import Welcome from './Welcome';
 import SignUp from './SignUp';
@@ -8,36 +7,48 @@ import ResetPassword from './ResetPassword';
 import MyItems from './MyItems';
 import MyLocations from './MyLocations';
 import Forgotinfo from './ForgotInfo';
+import Search from './Search';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      logo: 'Accio!',
+      userId: 1,
+      preferred_name: 'Martin',
+      allitems: [],
+      containers: [],
+      locations: [],
+      searchResult: [],
       search: '',
-      locations: ['kitchen', 'storage', 'living room'],
-      items: ['sawyer', 'lizzy', 'dodo'],
     };
-    this.styles = {
-      fontSize: 50,
-      fontWeight: 'bold',
-    };
-    this.itemLookup = this.itemLookup.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.dbSearch = this.dbSearch.bind(this);
+    this.dbLookup = this.dbLookup.bind(this);
   }
 
-  async itemLookup(event) {
+  // handleChange for search bar functionality
+  handleChange(event) {
+    event.preventDefault();
+    this.setState({ search: event.target.value });
+  }
+
+  async dbLookup(path) {
+    try {
+      // Get requests. 'path' is (allItems || containers || locations)
+      const response = await (await fetch(`http://localhost:3000/api/${path}/${this.state.userId}`)).json();
+      this.setState({ [path]: response });
+    } catch (error) {
+      console.log(`Error in APP.jsx ${path} dbLookup: `, error);
+    }
+  }
+
+  async dbSearch(event, search) {
     event.preventDefault();
     try {
-      const response = await fetch('url', {
-        method: 'POST',
-        body: JSON.stringify({ search: this.state.search }),
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-      // logic for what we want it to do after signup (if response is 200 or not)
+      const response = await (await fetch(`http://localhost:3000/api/getItem/${this.state.userId}/${search}`)).json();
+      this.setState({ searchResult: response });
     } catch (error) {
-      console.log('Error in signUpSubmit: ', error);
+      console.log('Error in APP.jsx dbSearch: ', error);
     }
   }
 
@@ -45,23 +56,39 @@ class App extends React.Component {
     return (
       <div>
         <Switch>
-        <Route path="/forgotinfo">
+          <Route path="/forgotinfo">
             <Forgotinfo />
           </Route>
-          <Route path="/signup">
-            <SignUp />
-          </Route>
           <Route path="/myitems">
-            <MyItems items={this.state.items} />
+            <MyItems
+              id={this.state.userId}
+              items={this.state.allitems}
+              name={this.state.preferred_name}
+              dbLookup={this.dbLookup}
+            />
           </Route>
-
           <Route path="/mylocations">
-            <MyLocations locations={this.state.locations} />
+            <MyLocations
+              id={this.state.userId}
+              locations={this.state.locations}
+              dbLookup={this.state.dbLookup}
+            />
           </Route>
           <Route path="/reset">
             <ResetPassword />
           </Route>
-          {/* Is the welcome page based on the user? */}
+          <Route path="/search">
+            <Search
+              id={this.state.userId}
+              search={this.state.search}
+              searchResult={this.state.searchResult}
+              dbSearch={this.dbSearch}
+              handleChange={this.handleChange}
+            />
+          </Route>
+          <Route path="/signup">
+            <SignUp />
+          </Route>
           <Route path="/welcome">
             <Welcome />
           </Route>
