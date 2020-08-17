@@ -4,20 +4,16 @@ import { Link } from 'react-router-dom';
 function Welcome(props) {
   return (
     <div>
-      <h1> Welcome! </h1>
-      <div>
-        <button id="Locations" type="button">
-          Location
-        </button>
-      </div>
+      <h1> Welcome, {props.name}! </h1>
+      <div></div>
       <span className="logo">Accio!</span>
       <div>
-        <Link to="/mylocations">
+        <Link to="/myitems">
           <button id="Items" type="button">
             Items
           </button>
         </Link>
-        <Link to="/myitems">
+        <Link to="/mylocations">
           <button id="Locations" type="button">
             Locations
           </button>

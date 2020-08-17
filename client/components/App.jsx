@@ -8,13 +8,14 @@ import MyItems from './MyItems';
 import MyLocations from './MyLocations';
 import Forgotinfo from './ForgotInfo';
 import Search from './Search';
+import NewItem from './NewItem';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      userId: 1,
-      preferred_name: 'Martin',
+      userId: '',
+      preferred_name: '',
       allitems: [],
       containers: [],
       locations: [],
@@ -24,6 +25,7 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.dbSearch = this.dbSearch.bind(this);
     this.dbLookup = this.dbLookup.bind(this);
+    this.handleLogin = this.handleLogin.bind(this);
   }
 
   // handleChange for search bar functionality
@@ -32,10 +34,19 @@ class App extends React.Component {
     this.setState({ search: event.target.value });
   }
 
+  handleLogin(response) {
+    this.setState({
+      userId: response.userId,
+      preferred_name: response.preferred_name,
+    });
+  }
+
   async dbLookup(path) {
     try {
       // Get requests. 'path' is (allItems || containers || locations)
-      const response = await (await fetch(`http://localhost:3000/api/${path}/${this.state.userId}`)).json();
+      const response = await (
+        await fetch(`http://localhost:3000/api/${path}/${this.state.userId}`)
+      ).json();
       this.setState({ [path]: response });
     } catch (error) {
       console.log(`Error in APP.jsx ${path} dbLookup: `, error);
@@ -45,7 +56,11 @@ class App extends React.Component {
   async dbSearch(event, search) {
     event.preventDefault();
     try {
-      const response = await (await fetch(`http://localhost:3000/api/getItem/${this.state.userId}/${search}`)).json();
+      const response = await (
+        await fetch(
+          `http://localhost:3000/api/getItem/${this.state.userId}/${search}`,
+        )
+      ).json();
       this.setState({ searchResult: response });
     } catch (error) {
       console.log('Error in APP.jsx dbSearch: ', error);
@@ -87,13 +102,19 @@ class App extends React.Component {
             />
           </Route>
           <Route path="/signup">
-            <SignUp />
+            <SignUp handleLogin={this.handleLogin} />
           </Route>
           <Route path="/welcome">
-            <Welcome />
+            <Welcome
+              name={this.state.preferred_name}
+              handleLogin={this.handleLogin}
+            />
           </Route>
           <Route exact path="/">
             <Login />
+          </Route>
+          <Route path="/newitem">
+            <NewItem userId={this.state.userId} />
           </Route>
         </Switch>
       </div>

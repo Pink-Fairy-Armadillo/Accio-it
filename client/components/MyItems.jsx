@@ -6,12 +6,15 @@ class MyItems extends Component {
   constructor(props) {
     super(props);
     this.items = [];
+    this.clicked = false;
   }
 
   componentDidMount() {
     (async () => {
       await this.props.dbLookup('allitems');
-      this.items = await this.props.items.map((item, i) => <ItemInfo key={`item${i}`} item={item.item_name} />);
+      this.items = await this.props.items.map((item, i) => (
+        <ItemInfo key={`item${i}`} item={item.item_name} />
+      ));
       this.forceUpdate();
     })();
   }
@@ -25,8 +28,11 @@ class MyItems extends Component {
           </button>
         </Link>
         <div className="title">My Items</div>
-        <button type="button">add item ++</button>
-        {(this.items.length && this.items) || `Please add some items, ${this.props.name}!`}
+        <Link to="/newitem">
+          <button type="button">add item ++</button>{' '}
+        </Link>
+        {(this.items.length && this.items) ||
+          `Please add some items, ${this.props.name}!`}
       </div>
     );
   }
