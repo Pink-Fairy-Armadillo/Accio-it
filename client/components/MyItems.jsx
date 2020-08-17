@@ -13,7 +13,12 @@ class MyItems extends Component {
     (async () => {
       await this.props.dbLookup('allitems');
       this.items = await this.props.items.map((item, i) => (
-        <ItemInfo key={`item${i}`} item={item.item_name} />
+        <ItemInfo
+          key={`item${i}`}
+          item={item.item_name}
+          location={item.location}
+          container={item.container}
+        />
       ));
       this.forceUpdate();
     })();
