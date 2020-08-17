@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter, Switch, Route } from 'react-router-dom';
 
 // import Login from './Login'
 class Signup extends Component {
@@ -21,13 +22,24 @@ class Signup extends Component {
         body: JSON.stringify({
           email: this.state.email,
           password: this.state.password,
-          name: this.state.name,
+          preferred_name: this.state.name,
         }),
         headers: {
           'Content-Type': 'application/json',
         },
       });
       console.log('response', response);
+      if (response.status === 200) {
+        this.props.history.replace('/welcome');
+        // <Switch>
+        //   <Route
+        //     to="/welcome"
+        //     render={(props) => <Welcome {...props} name={this.state.name} />}
+        //   />
+        // </Switch>;
+      } else {
+        alert('Username already exists!');
+      }
       // logic for what we want it to do after signup (if response is 200 or not)
     } catch (error) {
       console.log('Error in signUpSubmit: ', error);
@@ -77,4 +89,4 @@ class Signup extends Component {
   }
 }
 
-export default Signup;
+export default withRouter(Signup);

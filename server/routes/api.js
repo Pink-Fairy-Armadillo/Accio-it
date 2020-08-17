@@ -2,7 +2,7 @@
 const express = require('express');
 
 const accioController = require('../controllers/accioController'); // middlewares
-const userController = require('../controllers/userController');
+// const userController = require('../controllers/userController');
 
 const router = express.Router();
 
@@ -32,7 +32,7 @@ router.get(
   accioController.getItem,
   (req, res) => {
     res.status(200).json(res.locals.itemInfo);
-  }
+  },
 );
 
 // user updates an item, data in req.body
@@ -46,7 +46,7 @@ router.delete(
   accioController.deleteItem,
   (req, res) => {
     res.status(200).json({ message: 'success deleting the item' });
-  }
+  },
 );
 
 // get a list of all locations for user
@@ -57,10 +57,6 @@ router.get('/locations/:userId', accioController.getLocations, (req, res) => {
 // get a list of all containers for user
 router.get('/containers/:userId', accioController.getContainers, (req, res) => {
   res.status(200).json(res.locals.containers);
-});
-
-router.post('/addUser', userController.addUser, (req, res) => {
-  res.status(200);
 });
 
 module.exports = router;

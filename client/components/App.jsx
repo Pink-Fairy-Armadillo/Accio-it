@@ -14,7 +14,7 @@ class App extends React.Component {
     super(props);
     this.state = {
       userId: 1,
-      preferred_name: 'Martin',
+      preferred_name: '',
       allitems: [],
       containers: [],
       locations: [],
@@ -24,6 +24,7 @@ class App extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.dbSearch = this.dbSearch.bind(this);
     this.dbLookup = this.dbLookup.bind(this);
+    // this.nameLookup = this.nameLookup.bind(this);
   }
 
   // handleChange for search bar functionality
@@ -35,7 +36,9 @@ class App extends React.Component {
   async dbLookup(path) {
     try {
       // Get requests. 'path' is (allItems || containers || locations)
-      const response = await (await fetch(`http://localhost:3000/api/${path}/${this.state.userId}`)).json();
+      const response = await (
+        await fetch(`http://localhost:3000/api/${path}/${this.state.userId}`)
+      ).json();
       this.setState({ [path]: response });
     } catch (error) {
       console.log(`Error in APP.jsx ${path} dbLookup: `, error);
@@ -45,7 +48,11 @@ class App extends React.Component {
   async dbSearch(event, search) {
     event.preventDefault();
     try {
-      const response = await (await fetch(`http://localhost:3000/api/getItem/${this.state.userId}/${search}`)).json();
+      const response = await (
+        await fetch(
+          `http://localhost:3000/api/getItem/${this.state.userId}/${search}`,
+        )
+      ).json();
       this.setState({ searchResult: response });
     } catch (error) {
       console.log('Error in APP.jsx dbSearch: ', error);
@@ -90,7 +97,7 @@ class App extends React.Component {
             <SignUp />
           </Route>
           <Route path="/welcome">
-            <Welcome />
+            <Welcome name={this.state.preferred_name} />
           </Route>
           <Route exact path="/">
             <Login />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 class Login extends React.Component {
   constructor(props) {
@@ -49,7 +50,7 @@ class Login extends React.Component {
   async handleSubmit(event) {
     event.preventDefault();
     try {
-      const response = await fetch('url', {
+      const response = await fetch('http://localhost:3000/api/verifyUser', {
         method: 'POST',
         body: JSON.stringify({
           email: this.state.email,
@@ -60,6 +61,13 @@ class Login extends React.Component {
         },
       });
       console.log('response from login fetch:', response);
+      if (response.status === 200) {
+        this.props.history.replace('/welcome');
+      } else {
+        alert(
+          'Wrong username or password, please try again or register as a new user',
+        );
+      }
       //logic for what we want it to do after login (if response is 200 or not)
     } catch (error) {
       console.log('Error in handleSubmit of Login:', error);
@@ -116,4 +124,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default withRouter(Login);
