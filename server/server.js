@@ -1,7 +1,10 @@
 /* eslint-disable function-paren-newline */
 
 const path = require('path');
+
 const express = require('express');
+
+const cors = require('cors');
 
 const app = express();
 
@@ -12,6 +15,7 @@ const PORT = 3000;
 // handle parsing request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 // handle requests for static files if we have
 // app.use('/assets', express.static(path.resolve(__dirname, '../client/assets')));
