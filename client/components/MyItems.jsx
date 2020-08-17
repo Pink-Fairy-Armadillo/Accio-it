@@ -18,6 +18,7 @@ class MyItems extends Component {
           item={item.item_name}
           location={item.location}
           container={item.container}
+          userId={this.props.userId}
         />
       ));
       this.forceUpdate();
@@ -34,7 +35,7 @@ class MyItems extends Component {
         </Link>
         <div className="title">My Items</div>
         <Link to="/newitem">
-          <button type="button">add item ++</button>{' '}
+          <button type="button">add item ++</button>
         </Link>
         {(this.items.length && this.items) ||
           `Please add some items, ${this.props.name}!`}

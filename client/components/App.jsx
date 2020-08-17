@@ -9,6 +9,7 @@ import MyLocations from './MyLocations';
 import Forgotinfo from './ForgotInfo';
 import Search from './Search';
 import NewItem from './NewItem';
+import NewLocation from './NewLocation';
 
 class App extends React.Component {
   constructor(props) {
@@ -77,7 +78,7 @@ class App extends React.Component {
           </Route>
           <Route path="/myitems">
             <MyItems
-              id={this.state.userId}
+              userId={this.state.userId}
               items={this.state.allitems}
               name={this.state.preferred_name}
               dbLookup={this.dbLookup}
@@ -85,7 +86,7 @@ class App extends React.Component {
           </Route>
           <Route path="/mylocations">
             <MyLocations
-              id={this.state.userId}
+              userId={this.state.userId}
               locations={this.state.locations}
               name={this.state.preferred_name}
               dbLookup={this.dbLookup}
@@ -114,6 +115,9 @@ class App extends React.Component {
           </Route>
           <Route path="/newitem">
             <NewItem userId={this.state.userId} />
+          </Route>
+          <Route path="/newlocation">
+            <NewLocation userId={this.state.userId} />
           </Route>
         </Switch>
       </div>
